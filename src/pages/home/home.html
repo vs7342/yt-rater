@@ -1,14 +1,37 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Video Rater
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+  <!-- Search Video text box and button -->
+  <ion-item>
+    <ion-label floating>Search Videos</ion-label>
+    <ion-input #videoSearchText></ion-input>
+  </ion-item>
+  <button ion-button block (click)="loadVideos(videoSearchText.value)">Search</button>
+
+  <!-- Video list based on the text box value -->
+  <ion-list>
+    <ion-item text-wrap *ngFor="let video of videoItems">
+
+      <!--Video Thumbnail-->
+      <ion-thumbnail item-left *ngIf="video.snippet.thumbnails.default.url">
+        <img src="{{video.snippet.thumbnails.default.url}}">
+      </ion-thumbnail>
+
+      <!--Video Title-->
+      <p>{{video.snippet.title}}</p>
+
+      <!--Right forward icon-->
+      <ion-icon name="arrow-forward" item-right></ion-icon>
+
+    </ion-item>
+  </ion-list>
+
+
 </ion-content>
