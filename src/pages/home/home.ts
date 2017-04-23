@@ -64,6 +64,19 @@ export class HomePage {
     })
   }
 
-
-
+  /**
+   * An alert box to display classifier info
+   */
+  displayInfo(){
+    let alert = this.alertController.create({
+      title: 'App Info',
+      subTitle:
+        "Classifier Used: <br/> Naive Bayes Multinomial"+
+        "<br/><br/>"+
+        "Classifier Accuracy: <br/>"+
+        this.nbService.accuracy.toString(),
+      buttons: ['Dismiss']
+    });
+    alert.present();
+  }
 }

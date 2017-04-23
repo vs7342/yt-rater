@@ -17,6 +17,7 @@ declare let $ : any;
 export class NbService {
 
   NB_TRAINING_DATA_CSV_URL : String;
+  public accuracy: number;
 
   constructor(public http: Http, private constantsService: ConstantsService) {
     console.log('Hello NbService Provider');
@@ -49,6 +50,9 @@ export class NbService {
           else if(label == "negative")
             trainLabels.push(0);
         }
+
+        //Calculating and setting classifier accuracy
+        this.setClassificationAccuracy(trainDocs, trainLabels);
 
         //Training data is now ready - pass to performNB function
         this.createNBClassifier(trainDocs, trainLabels, 3);
@@ -187,4 +191,46 @@ export class NbService {
     return isNaN(token);
   }
 
+  /**
+   * Sets the 'accuracy' attribute of the class based on the accuracy calculated
+   * @param allDocs
+   * @param allLabels
+   */
+  setClassificationAccuracy(allDocs, allLabels){
+    //First split the entire data set into training/test
+    //70% = Training, 30% = Test
+    let testDataStartIndex = Math.ceil(allDocs.length * 0.7);
+
+    //Extract (splice) 70% of data from allDocs and assign it to trainDocs
+    //Remaining (allDocs) is nothing but the remaining data which can be used as test set
+    let trainDocs = allDocs.splice(0, testDataStartIndex);
+    let trainLabels = allLabels.splice(0, testDataStartIndex);
+    let testDocs = allDocs;
+    let testLabels = allLabels;
+
+    //Create NB with this training set (i.e.70% of entire data)
+    this.createNBClassifier(trainDocs,trainLabels,3);
+
+    //Variables needed for calculating accuracy
+    let correctlyClassified = 0;
+    let incorrectlyClassified = 0;
+
+    //Now start classifying the data in test set
+    let testDocLen = testDocs.length;
+    for(let i = 0; i < testDocLen; i++){
+      //classify the document - An integer will be received
+      let classifierInt = this.classify(testDocs[i]);
+
+      //we now compare this with class label for that doc
+      if(classifierInt==testLabels[i]){
+        correctlyClassified++;
+      }else{
+        incorrectlyClassified++;
+      }
+    }
+
+    //We now calculate the accuracy and set the relevant attribute
+    this.accuracy = (correctlyClassified) * 100.0 / (incorrectlyClassified + correctlyClassified);
+    console.log(this.accuracy);
+  }
 }
