@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
+    <ion-title text-center>
       Video Rater
     </ion-title>
   </ion-navbar>
@@ -17,7 +17,7 @@
 
   <!-- Video list based on the text box value -->
   <ion-list>
-    <ion-item text-wrap *ngFor="let video of videoItems">
+    <ion-item text-wrap *ngFor="let video of videoItems" (click)="goToComments(video.id.videoId)">
 
       <!--Video Thumbnail-->
       <ion-thumbnail item-left *ngIf="video.snippet.thumbnails.default.url">

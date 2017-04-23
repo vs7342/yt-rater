@@ -8,11 +8,13 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { HttpModule } from "@angular/http";
 import { ConstantsService } from "../providers/constants-service";
+import {Comments} from "../pages/comments/comments";
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    Comments
   ],
   imports: [
     BrowserModule,
@@ -22,7 +24,8 @@ import { ConstantsService } from "../providers/constants-service";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    Comments
   ],
   providers: [
     StatusBar,

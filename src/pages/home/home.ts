@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController, NavController } from 'ionic-angular';
 import { VideoService } from "../../providers/video-service";
+import {Comments} from "../comments/comments";
 
 @Component({
   selector: 'page-home',
@@ -35,8 +36,6 @@ export class HomePage {
       this.noTextAlert();
       this.videoItems = null;
     }
-
-
   }
 
   /**
@@ -49,6 +48,12 @@ export class HomePage {
       buttons: ['Dismiss']
     });
     alert.present();
+  }
+
+  goToComments(videoID:String){
+    this.navCtrl.push(Comments, {
+      videoID:videoID
+    })
   }
 
 }
