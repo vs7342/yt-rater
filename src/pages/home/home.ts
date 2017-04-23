@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { AlertController, NavController } from 'ionic-angular';
 import { VideoService } from "../../providers/video-service";
 import {Comments} from "../comments/comments";
+import {NbService} from "../../providers/nb-service";
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [VideoService]
+  providers: [VideoService, NbService]
 })
 export class HomePage {
 
@@ -15,9 +16,12 @@ export class HomePage {
   constructor(
     public navCtrl: NavController,
     public videoService: VideoService,
-    public alertController: AlertController)
+    public alertController: AlertController,
+    public nbService:NbService
+  )
   {
-
+    //Loading training data and initializing the nb classifier when the app firsts load (Actually when home page is loaded for the first time)
+    nbService.loadTrainingData();
   }
 
   /**
@@ -50,10 +54,16 @@ export class HomePage {
     alert.present();
   }
 
+  //Navigating to comments page
+  //Pass the videoId as a parameter so that relevant comments can be loaded
+  //Pass the same instance of NbService to comments page so that comments can be classified
   goToComments(videoID:String){
     this.navCtrl.push(Comments, {
-      videoID:videoID
+      videoID:videoID,
+      nbService: this.nbService
     })
   }
+
+
 
 }

@@ -1,3 +1,14 @@
 page-comments {
-
+  .Negative{
+    background-color: #f2dede; //Color for bootstrap danger
+  }
+  .Neutral {
+    background-color: #d9edf7; //Color for bootstrap neutral
+  }
+  .Positive{
+    background-color: #dff0d8; //Color for bootstrap positive
+  }
+  .comment{
+    border-bottom: 0.55px solid #c8c7cc !important;
+  }
 }

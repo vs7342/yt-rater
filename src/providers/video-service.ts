@@ -80,8 +80,8 @@ export class VideoService {
         .subscribe(data => {
           //this data is raw response
           //we are interested in it's 'items' array which is nothing but a list of video objects
-          this.data = data.items;
-          resolve(this.data);
+          //returning raw data now since stupid ionic error - no length property of {}
+          resolve(data);
         });
     });
   }

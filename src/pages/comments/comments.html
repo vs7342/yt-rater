@@ -13,12 +13,18 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
   <!--List to display all the comments-->
-  <ion-list>
-    <ion-item *ngFor="let comment of commentItems" text-wrap>
-      <p>{{comment.snippet.topLevelComment.snippet.textOriginal}}</p>
+  <ion-list no-lines>
+    <ion-item *ngFor="let comment of commentItems" text-wrap ngClass="{{comment.classification}} comment">
+
+      <!-- Actual Comment -->
+      <p>{{comment.text}}</p>
+
+      <!--Comment classification -->
+      <strong>{{comment.classification}}</strong>
+
     </ion-item>
   </ion-list>
 
