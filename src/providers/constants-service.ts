@@ -17,7 +17,7 @@ export class ConstantsService {
     console.log('Hello ConstantsService Provider');
     this.YT_API_BASE_URL = "https://www.googleapis.com/youtube/v3";
     this.YT_API_KEY = "AIzaSyCvKY7j5RYBoA4JvNoGWUvuwjZI5N5BC_E";
-    this.NB_TRAINING_DATA_CSV_URL = "https://s3.amazonaws.com/autobot-kpt/training-data.csv";
+    this.NB_TRAINING_DATA_CSV_URL = "https://people.rit.edu/~vs7342/kpt/chkpt4/training-data.csv";
   }
 
   getYTApiBaseUrl() : String{
