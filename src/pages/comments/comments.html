@@ -17,15 +17,33 @@
 
   <!--List to display all the comments-->
   <ion-list no-lines>
-    <ion-item *ngFor="let comment of commentItems" text-wrap ngClass="{{comment.classification}} comment">
+    <ion-item-sliding *ngFor="let comment of commentItems" #slidingItem>
 
-      <!-- Actual Comment -->
-      <p>{{comment.text}}</p>
+      <ion-item text-wrap ngClass="{{comment.classification}} comment">
+        <!-- Actual Comment -->
+        <p>{{comment.text}}</p>
 
-      <!--Comment classification -->
-      <strong>{{comment.classification}}</strong>
+        <!--Comment classification -->
+        <strong>{{comment.classification}}</strong>
+      </ion-item>
 
-    </ion-item>
+      <!-- Sliding options -->
+      <ion-item-options side="right">
+
+        <!-- Button to record that the comment was classified correctly -->
+        <button ngClass="success" ion-button (click)="reportFeedback(slidingItem, comment.text, comment.classification, true)">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          True
+        </button>
+
+        <!-- Button to record that the comment was classified incorrectly -->
+        <button ngClass="danger" ion-button (click)="reportFeedback(slidingItem, comment.text, comment.classification, false)">
+          <ion-icon name="close-circle"></ion-icon>
+          False
+        </button>
+
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 
 </ion-content>
