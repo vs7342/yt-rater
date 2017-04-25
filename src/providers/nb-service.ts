@@ -52,7 +52,10 @@ export class NbService {
         }
 
         //Calculating and setting classifier accuracy
-        this.setClassificationAccuracy(trainDocs, trainLabels);
+        //Assigning it to a different variable so that when we actually create nb classifier with entire data set, it is not affected
+        let allDocs = trainDocs.slice(0);
+        let allLabels = trainLabels.slice(0);
+        this.setClassificationAccuracy(allDocs, allLabels);
 
         //Training data is now ready - pass to performNB function
         this.createNBClassifier(trainDocs, trainLabels, 3);
@@ -177,7 +180,7 @@ export class NbService {
   addToHashSet(hashSet, element){
     //Adding element to array only if that element is not previously present
     //THIS IS HOW HASHSET WORKS
-    if(!hashSet.includes(element)){
+    if(hashSet.indexOf(element)==-1){
       hashSet.push(element);
     }
   }
