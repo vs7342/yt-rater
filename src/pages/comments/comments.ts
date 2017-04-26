@@ -31,6 +31,9 @@ export class Comments {
   positivePercent: number;
   totalComments:number;
 
+  //NBService needed to classify a comment
+  nbService: NbService;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -41,7 +44,7 @@ export class Comments {
   ) {
     //load all the comments based on the navigation parameter (videoId)
     let videoID = navParams.get("videoID");
-    let nbService : NbService = navParams.get("nbService");
+    this.nbService = navParams.get("nbService");
 
     //getting Video details from navigation parameters
     this.videoURL = "https://www.youtube.com/watch?v=" + videoID;
@@ -78,7 +81,7 @@ export class Comments {
 
           //Get the classification of the comment (int) and convert it to relevant string class value
           //Incrementing classifier related counter as well - needed to display an overview of classification of comments
-          let classifierInt = nbService.classify(singleComment);
+          let classifierInt = this.nbService.classify(singleComment);
           let classifierStr : String;
           if(classifierInt==0){
             classifierStr = "Negative";
@@ -153,7 +156,10 @@ export class Comments {
       confirm.present();
     }
     //close the sliding list
-    slidingList.close()
+    //Report message is used by classifyCustomComment which does not have any slidingList - thus adding a check
+    if(slidingList){
+      slidingList.close()
+    }
   }
 
   /**
@@ -183,6 +189,82 @@ export class Comments {
       position: 'bottom'
     });
     toast.present();
+  }
+
+  /**
+   * Prompts the user to enter a comment/text which needs to be classified
+   * Calls classifyCustomComment when a comment is entered
+   */
+  promptForComment(){
+    let prompt = this.alertCtrl.create({
+      title: 'Classify Comment',
+      message: "Kindly enter the text you want to classify",
+      inputs: [
+        {
+          name: 'comment',
+          placeholder: 'Comment'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Classify',
+          handler: data => {
+            this.classifyCustomComment(data.comment);
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  /**
+   * Classifies the custom comment based on user's input
+   * Also takes necessary actions to report feedback for the comment classification
+   * @param comment
+   */
+  classifyCustomComment(comment){
+    //Get the classification of the comment (int) and convert it to relevant string class value
+    let classifierInt = this.nbService.classify(comment);
+    let classifierStr : String;
+    if(classifierInt==0){
+      classifierStr = "Negative";
+    }
+    else if(classifierInt==1){
+      classifierStr = "Neutral";
+    }
+    else if(classifierInt==2){
+      classifierStr = "Positive";
+    }
+
+    //Confirm with the user whether it is classified correctly or not
+    //Take necessary actions
+    let confirm = this.alertCtrl.create({
+      title: 'Comment = '+ classifierStr,
+      message: 'Do you feel that your comment was classified correctly?',
+      buttons: [
+        {
+          text: 'Disagree',
+          handler: () => {
+            //Report feedback with type = false (not classified correctly)
+            this.reportFeedback(null, comment, classifierStr, false);
+          }
+        },
+        {
+          text: 'Agree',
+          handler: () => {
+            //Report feedback with type = true (classified correctly)
+            this.reportFeedback(null, comment, classifierStr, true);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   ionViewDidLoad() {

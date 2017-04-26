@@ -7,7 +7,17 @@
 <ion-header>
 
   <ion-navbar>
+
+    <!--Navigation bar title-->
     <ion-title>Comments</ion-title>
+
+    <!--For custom comment classification-->
+    <ion-buttons end>
+      <button ion-button icon-only (click)="promptForComment()">
+        <ion-icon name="text"></ion-icon>
+      </button>
+    </ion-buttons>
+
   </ion-navbar>
 
 </ion-header>
@@ -55,13 +65,13 @@
 
         <!-- Button to record that the comment was classified correctly -->
         <button ngClass="success" ion-button (click)="reportFeedback(slidingItem, comment.text, comment.classification, true)">
-          <ion-icon name="checkmark-circle"></ion-icon>
+          <ion-icon name="thumbs-up"></ion-icon>
           True
         </button>
 
         <!-- Button to record that the comment was classified incorrectly -->
         <button ngClass="danger" ion-button (click)="reportFeedback(slidingItem, comment.text, comment.classification, false)">
-          <ion-icon name="close-circle"></ion-icon>
+          <ion-icon name="thumbs-down"></ion-icon>
           False
         </button>
 
