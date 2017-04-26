@@ -15,6 +15,29 @@
 
 <ion-content>
 
+  <!--Card to display overall video details-->
+  <ion-card padding>
+
+    <!--Video Thumbnail-->
+    <img src="{{videoThumbnail}}"/>
+
+    <ion-card-content>
+
+      <!--Video Title with hyperlink-->
+      <ion-card-title>
+        <a href="{{videoURL}}" target="_blank">{{videoTitle}}</a>
+      </ion-card-title>
+
+      <!--Overall classification details regarding the comments fetched for the video-->
+      <p>Total Comments Retrieved: {{totalComments}}</p>
+      <p>Positive: {{positivePercent}}%</p>
+      <p>Negative: {{negativePercent}}%</p>
+      <p>Neutral: {{neutralPercent}}%</p>
+
+    </ion-card-content>
+
+  </ion-card>
+
   <!--List to display all the comments-->
   <ion-list no-lines>
     <ion-item-sliding *ngFor="let comment of commentItems" #slidingItem>

@@ -57,9 +57,12 @@ export class HomePage {
   //Navigating to comments page
   //Pass the videoId as a parameter so that relevant comments can be loaded
   //Pass the same instance of NbService to comments page so that comments can be classified
-  goToComments(videoID:String){
+  //Pass videoTitle and videoThumbnail url as well to the next page - to display video details
+  goToComments(videoID:String, videoTitle:String, videoThumbnail:String){
     this.navCtrl.push(Comments, {
       videoID:videoID,
+      videoTitle: videoTitle,
+      videoThumbnail: videoThumbnail,
       nbService: this.nbService
     })
   }
@@ -74,7 +77,7 @@ export class HomePage {
         "Classifier Used: <br/> Naive Bayes Multinomial"+
         "<br/><br/>"+
         "Classifier Accuracy: <br/>"+
-        this.nbService.accuracy.toString(),
+        this.nbService.accuracy.toFixed(2) + "%",
       buttons: ['Dismiss']
     });
     alert.present();

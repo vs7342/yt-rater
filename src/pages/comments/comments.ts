@@ -17,7 +17,19 @@ import {FeedbackService} from "../../providers/feedback-service";
   providers: [VideoService, NbService, FeedbackService]
 })
 export class Comments {
+  //array of comment objects
   commentItems: any;
+
+  //video details - these will be retrieved as navigation params from previous page
+  videoTitle: any;
+  videoURL: any;
+  videoThumbnail: any;
+
+  //classification related details displayed on the page
+  negativePercent: number;
+  neutralPercent: number;
+  positivePercent: number;
+  totalComments:number;
 
   constructor(
     public navCtrl: NavController,
@@ -30,6 +42,17 @@ export class Comments {
     //load all the comments based on the navigation parameter (videoId)
     let videoID = navParams.get("videoID");
     let nbService : NbService = navParams.get("nbService");
+
+    //getting Video details from navigation parameters
+    this.videoURL = "https://www.youtube.com/watch?v=" + videoID;
+    this.videoTitle = navParams.get("videoTitle");
+    this.videoThumbnail = navParams.get("videoThumbnail");
+
+    //initializing classification overview parameters
+    this.negativePercent = 0;
+    this.neutralPercent = 0;
+    this.positivePercent = 0;
+    this.totalComments = 0;
 
     //Get all the comments for the video
     this.videoService.getComments(videoID)
@@ -54,16 +77,20 @@ export class Comments {
           singleComment = singleComment.toLowerCase();
 
           //Get the classification of the comment (int) and convert it to relevant string class value
+          //Incrementing classifier related counter as well - needed to display an overview of classification of comments
           let classifierInt = nbService.classify(singleComment);
           let classifierStr : String;
           if(classifierInt==0){
             classifierStr = "Negative";
+            this.negativePercent++;
           }
           else if(classifierInt==1){
             classifierStr = "Neutral";
+            this.neutralPercent++;
           }
           else if(classifierInt==2){
             classifierStr = "Positive";
+            this.positivePercent++;
           }
 
           //Adding the comment to the array
@@ -73,6 +100,11 @@ export class Comments {
           });
         }
 
+        //Calculating overall details/sentiments for the video comments
+        this.totalComments = this.negativePercent + this.positivePercent + this.neutralPercent;
+        this.negativePercent = Number((this.negativePercent * 100 / this.totalComments).toFixed(2));
+        this.positivePercent = Number((this.positivePercent * 100 / this.totalComments).toFixed(2));
+        this.neutralPercent = Number((this.neutralPercent * 100 / this.totalComments).toFixed(2));
       });
   }
 

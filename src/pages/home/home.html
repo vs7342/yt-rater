@@ -25,7 +25,7 @@
 
   <!-- Video list based on the text box value -->
   <ion-list>
-    <ion-item text-wrap *ngFor="let video of videoItems" (click)="goToComments(video.id.videoId)">
+    <ion-item text-wrap *ngFor="let video of videoItems" (click)="goToComments(video.id.videoId, video.snippet.title, video.snippet.thumbnails.high.url)">
 
       <!--Video Thumbnail-->
       <ion-thumbnail item-left *ngIf="video.snippet.thumbnails.default.url">
