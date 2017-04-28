@@ -1,7 +1,7 @@
 {
   "name": "ionic-yt-rater",
-  "version": "1.0.0",
-  "author": "Ionic Framework",
+  "version": "1.1.0",
+  "author": "Vidit Singhal",
   "homepage": "http://ionicframework.com/",
   "private": true,
   "scripts": {
@@ -42,5 +42,5 @@
     "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [],
-  "description": "yt-rater: An Ionic project"
+  "description": "yt-rater: Ionic/Cordova app to classify educational video comments (Sentiment Analysis) on YouTube."
 }
